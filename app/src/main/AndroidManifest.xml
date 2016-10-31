@@ -18,6 +18,24 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <service
+                android:name=".service.ServiceOne"
+                android:process=":remote" >
+            <intent-filter android:priority="1000">
+                <action android:name="com.mt23.novel.service.ServiceOne" />
+            </intent-filter>
+        </service>
+
+        <service
+                android:name=".service.ServiceTwo"
+                android:process=":remote" >
+            <intent-filter android:priority="1000">
+                <action android:name="com.mt23.novel.service.ServiceTwo" />
+            </intent-filter>
+        </service>
+
+
     </application>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
 </manifest>

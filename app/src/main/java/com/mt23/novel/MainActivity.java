@@ -1,5 +1,6 @@
 package com.mt23.novel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,10 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.mt23.novel.service.ServiceOne;
+import com.mt23.novel.service.ServiceTwo;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-//
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        Intent serviceOne = new Intent();
+        serviceOne.setClass(MainActivity.this, ServiceOne.class);
+        startService(serviceOne);
+
+        Intent serviceTwo = new Intent();
+        serviceTwo.setClass(MainActivity.this, ServiceTwo.class);
+        startService(serviceTwo);
     }
 
     @Override
