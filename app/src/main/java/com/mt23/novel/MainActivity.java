@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         Intent serviceOne = new Intent();
         serviceOne.setClass(MainActivity.this, ServiceOne.class);
         startService(serviceOne);
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            moveTaskToBack(false);
             super.onBackPressed();
         }
     }
