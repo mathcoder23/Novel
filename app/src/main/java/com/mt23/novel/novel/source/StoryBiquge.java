@@ -105,6 +105,52 @@ public class StoryBiquge {
                     }
                 });
     }
+    public void getChaptersBuxiufanrenzhuan(String url)
+    {
+        OkHttpUtils.get()//
+                .tag(this)//
+                .url(API_BASE+url)
+                .build()
+                .execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(Response response) throws Exception {
+                        byte[] b = response.body().bytes(); //获取数据的bytes
+                        String info = new String(b, "GB2312"); //然后将其转为gb2312
+                        Document dom = Jsoup.parse(info);
+                        Elements dd = dom.getElementsByTag("dd");
+                        List<Map<String,Object>> chapter = new ArrayList<>();
+                        for (Element d : dd)
+                        {
+                            Elements a = d.getElementsByTag("a");
+                            if (null != a && a.size() == 1)
+                            {
+                                Map<String,Object> temp = new HashMap<String,Object>();
+                                temp.put("name",a.html());
+                                temp.put("href",a.attr("href"));
+                                chapter.add(temp);
+
+                            }
+                            else
+                            {
+                                Log.i("xixi","章节列表格式不正确!");
+                            }
+                        }
+                        Collections.reverse(chapter);
+                        mHandler.obtainMessage(1,chapter).sendToTarget();
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Object o) {
+
+                    }
+                });
+    }
 
     Handler mHandler = new Handler(){
         @Override

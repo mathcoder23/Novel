@@ -34,7 +34,7 @@ public class ServiceTwo extends Service {
 
                 @Override
                 public void run() {
-                    Log.e(TAG, "ServiceTwo Run: " + System.currentTimeMillis());
+                   // Log.e(TAG, "ServiceTwo Run: " + System.currentTimeMillis());
                     boolean b = ServiceDaemon.isServiceWorked(ServiceTwo.this, "com.mt23.novel.service.ServiceOne");
                     if(!b) {
                         Intent service = new Intent(ServiceTwo.this, ServiceOne.class);

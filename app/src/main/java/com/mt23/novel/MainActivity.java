@@ -1,5 +1,7 @@
 package com.mt23.novel;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,9 +17,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.mt23.novel.service.ServiceOne;
 import com.mt23.novel.service.ServiceTwo;
+import com.mt23.novel.ui.fragment.ChapterContent;
+import com.mt23.novel.ui.fragment.ChapterList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private ChapterList chapterList;
+    private ChapterContent chapterContent;
+    final FragmentManager fm = getFragmentManager();
+    private void setDefaultFragment()
+    {
+
+        chapterList = new ChapterList();
+        chapterList.setOnItemSelectListener(new ChapterList.OnItemSelectListener() {
+            @Override
+            public void SelectItem(String data,String title) {
+                if (chapterContent == null)
+                {
+                    chapterContent = new ChapterContent();
+                }
+                setTitle(title);
+               fm.beginTransaction()
+               .replace(R.id.id_content,chapterContent)
+               .commit();
+                chapterContent.setLocalData(data);
+            }
+        });
+        fm.beginTransaction()
+                .replace(R.id.id_content,chapterList)
+                .commit();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        init();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +81,11 @@ public class MainActivity extends AppCompatActivity
         Intent serviceTwo = new Intent();
         serviceTwo.setClass(MainActivity.this, ServiceTwo.class);
         startService(serviceTwo);
+        setDefaultFragment();
+        setTitle("不朽凡人传");
+    }
+
+    private void init() {
     }
 
     @Override
@@ -89,13 +124,32 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
+            // Handle the camera action
+            if (chapterContent == null)
+            {
+                chapterContent = new ChapterContent();
+            }
+            // 使用当前Fragment的布局替代id_content的控件
+            fm.beginTransaction()
+                    .replace(R.id.id_content,chapterContent)
+                    .commit();
+
+        } else if (id == R.id.nav_gallery) {
+            setTitle("不朽凡人传");
+            if (chapterList == null)
+            {
+                chapterList = new ChapterList();
+            }
+            // 使用当前Fragment的布局替代id_content的控件
+            fm.beginTransaction()
+                    .replace(R.id.id_content,chapterList)
+                    .commit();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -105,7 +159,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
