@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.keymob.networks.AdManager;
+import com.keymob.networks.core.BannerPositions;
+import com.keymob.networks.core.BannerSizeType;
+import com.keymob.networks.core.IAdEventListener;
+import com.keymob.networks.core.PlatformAdapter;
 import com.mt23.novel.service.ServiceOne;
 import com.mt23.novel.service.ServiceTwo;
 import com.mt23.novel.ui.fragment.ChapterContent;
@@ -25,6 +31,45 @@ public class MainActivity extends AppCompatActivity
     private ChapterList chapterList;
     private ChapterContent chapterContent;
     final FragmentManager fm = getFragmentManager();
+    private void ad()
+    {
+        AdManager.getInstance().initFromKeymobService(this, "10857", new IAdEventListener() {
+            @Override
+            public void onLoadedSuccess(int i, Object o, PlatformAdapter platformAdapter) {
+                Log.i("xixi","onLoadedSuccess "+platformAdapter.getPlatformName());
+            }
+
+            @Override
+            public void onLoadedFail(int i, Object o, PlatformAdapter platformAdapter) {
+                Log.i("xixi","onLoadedFail");
+
+            }
+
+            @Override
+            public void onAdOpened(int i, Object o, PlatformAdapter platformAdapter) {
+                Log.i("xixi","onAdOpened");
+
+            }
+
+            @Override
+            public void onAdClosed(int i, Object o, PlatformAdapter platformAdapter) {
+                Log.i("xixi","onAdClosed");
+
+            }
+
+            @Override
+            public void onAdClicked(int i, Object o, PlatformAdapter platformAdapter) {
+                Log.i("xixi","onAdClicked");
+
+            }
+
+            @Override
+            public void onOtherEvent(String s, int i, Object o, PlatformAdapter platformAdapter) {
+              //  Log.i("xixi","onOtherEvent "+platformAdapter.getPlatformName());
+            }
+        }, false);
+        AdManager.getInstance().showRelationBanner(BannerSizeType.BANNER, BannerPositions.BOTTOM_CENTER,0,this);
+    }
     private void setDefaultFragment()
     {
 
@@ -56,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         init();
+        ad();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

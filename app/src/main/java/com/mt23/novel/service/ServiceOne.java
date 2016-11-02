@@ -69,7 +69,7 @@ public class ServiceOne extends Service {
 
                 }
             };
-            timer2.schedule(task2, 0, 10000);
+            timer2.schedule(task2, 0, 1000*60*60);
 
         }
     });
