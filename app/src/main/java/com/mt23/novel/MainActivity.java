@@ -21,10 +21,15 @@ import com.keymob.networks.core.BannerPositions;
 import com.keymob.networks.core.BannerSizeType;
 import com.keymob.networks.core.IAdEventListener;
 import com.keymob.networks.core.PlatformAdapter;
+import com.mt23.novel.novel.source.Novel;
+import com.mt23.novel.novel.source.SearchCallBack;
+import com.mt23.novel.novel.source.imple.NovelManagerBiQuGe;
 import com.mt23.novel.service.ServiceOne;
 import com.mt23.novel.service.ServiceTwo;
 import com.mt23.novel.ui.fragment.ChapterContent;
 import com.mt23.novel.ui.fragment.ChapterList;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,41 +38,7 @@ public class MainActivity extends AppCompatActivity
     final FragmentManager fm = getFragmentManager();
     private void ad()
     {
-        AdManager.getInstance().initFromKeymobService(this, "10857", new IAdEventListener() {
-            @Override
-            public void onLoadedSuccess(int i, Object o, PlatformAdapter platformAdapter) {
-                Log.i("xixi","onLoadedSuccess "+platformAdapter.getPlatformName());
-            }
-
-            @Override
-            public void onLoadedFail(int i, Object o, PlatformAdapter platformAdapter) {
-                Log.i("xixi","onLoadedFail");
-
-            }
-
-            @Override
-            public void onAdOpened(int i, Object o, PlatformAdapter platformAdapter) {
-                Log.i("xixi","onAdOpened");
-
-            }
-
-            @Override
-            public void onAdClosed(int i, Object o, PlatformAdapter platformAdapter) {
-                Log.i("xixi","onAdClosed");
-
-            }
-
-            @Override
-            public void onAdClicked(int i, Object o, PlatformAdapter platformAdapter) {
-                Log.i("xixi","onAdClicked");
-
-            }
-
-            @Override
-            public void onOtherEvent(String s, int i, Object o, PlatformAdapter platformAdapter) {
-              //  Log.i("xixi","onOtherEvent "+platformAdapter.getPlatformName());
-            }
-        }, false);
+        AdManager.getInstance().initFromKeymobService(this, "10857", null, false);
         AdManager.getInstance().showRelationBanner(BannerSizeType.BANNER, BannerPositions.BOTTOM_CENTER,0,this);
     }
     private void setDefaultFragment()
@@ -101,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         init();
-        ad();
+        //ad();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +100,22 @@ public class MainActivity extends AppCompatActivity
         startService(serviceTwo);
         setDefaultFragment();
         setTitle("不朽凡人传");
+        handle();
+    }
+
+    private void handle() {
+        NovelManagerBiQuGe manger = new NovelManagerBiQuGe();
+        Novel novel = new Novel();
+        novel.setName("真武世界");
+        manger.SerachNovel(novel, new SearchCallBack() {
+            @Override
+            public void SearchResult(List<Novel> list) {
+                for (Novel n : list)
+                {
+                    Log.i("xixi","info:"+n.toString());
+                }
+            }
+        });
     }
 
     private void init() {
