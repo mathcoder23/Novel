@@ -12,6 +12,7 @@ public class Novel {
     private String type;
     private String updateTime;
     private String lastChapter;
+    private String lastChapterUrl;
     public String getName() {
         return name;
     }
@@ -76,17 +77,27 @@ public class Novel {
         this.lastChapter = lastChapter;
     }
 
+    public String getLastChapterUrl() {
+        return lastChapterUrl;
+    }
+
     @Override
     public String toString() {
         return "Novel{" +
                 "name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", summary='" + summary + '\'' +
-                ", url='" + url + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", type='" + type + '\'' +
-                ", updateTime='" + updateTime + '\'' +
-                ", lastChapter='" + lastChapter + '\'' +
+//                ", url='" + url + '\'' +
+//                ", imgUrl='" + imgUrl + '\'' +
+//                ", type='" + type + '\'' +
+//                ", updateTime='" + updateTime + '\'' +
+//                ", lastChapter='" + lastChapter + '\'' +
+//                ", lastChapterUrl='" + lastChapterUrl + '\'' +
                 '}';
     }
+
+    public void setLastChapterUrl(String lastChapterUrl) {
+        this.lastChapterUrl = lastChapterUrl;
+    }
+
 }

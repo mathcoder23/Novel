@@ -55,18 +55,21 @@ public class NovelManagerBiQuGe implements NovelManager{
                                     .html());
                             novel.setSummary(ch.getElementsByClass("result-game-item-desc").get(0)
                                     .html());
-                            novel.setAuthor(ch.getElementsByClass("result-game-item-info").get(0)
+                            novel.setAuthor(ch.getElementsByClass("result-game-item-info-tag").get(0)
                                     .getElementsByTag("span").get(1)
                                     .html());
-                            novel.setType(ch.getElementsByClass("result-game-item-info").get(1)
+                            novel.setType(ch.getElementsByClass("result-game-item-info-tag").get(1)
                                     .getElementsByTag("span").get(1)
                                     .html());
-                            novel.setUpdateTime(ch.getElementsByClass("result-game-item-info").get(2)
+                            novel.setUpdateTime(ch.getElementsByClass("result-game-item-info-tag").get(2)
                                     .getElementsByTag("span").get(1)
                                     .html());
-                            novel.setLastChapter(ch.getElementsByClass("result-game-item-info").get(3)
-                                    .getElementsByTag("span").get(1)
+                            novel.setLastChapter(ch.getElementsByClass("result-game-item-info-tag").get(3)
+                                    .getElementsByTag("a").get(0)
                                     .html());
+                            novel.setLastChapterUrl(ch.getElementsByClass("result-game-item-info-tag").get(3)
+                                    .getElementsByTag("a").get(0)
+                                    .attr("href"));
                             novelList.add(novel);
 
                         }
@@ -90,7 +93,7 @@ public class NovelManagerBiQuGe implements NovelManager{
         @Override
         public Object parseNetworkResponse(Response response) throws Exception {
             byte[] b = response.body().bytes(); //获取数据的bytes
-            String data = new String(b, "GB2312"); //然后将其转为gb2312
+            String data = new String(b, "UTF-8"); //然后将其转为gb2312
 //            Log.i("xixi",data);
             Document dom = Jsoup.parse(data);
             try{
