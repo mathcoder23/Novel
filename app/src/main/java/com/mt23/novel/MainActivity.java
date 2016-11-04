@@ -1,13 +1,9 @@
 package com.mt23.novel;
 
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,15 +15,15 @@ import android.view.MenuItem;
 import com.keymob.networks.AdManager;
 import com.keymob.networks.core.BannerPositions;
 import com.keymob.networks.core.BannerSizeType;
-import com.keymob.networks.core.IAdEventListener;
-import com.keymob.networks.core.PlatformAdapter;
 import com.mt23.novel.novel.source.Novel;
+import com.mt23.novel.novel.source.NovelManager;
 import com.mt23.novel.novel.source.SearchCallBack;
 import com.mt23.novel.novel.source.imple.NovelManagerBiQuGe;
 import com.mt23.novel.service.ServiceOne;
 import com.mt23.novel.service.ServiceTwo;
 import com.mt23.novel.ui.fragment.ChapterContent;
 import com.mt23.novel.ui.fragment.ChapterList;
+import com.mt23.novel.ui.fragment.SearchNovel;
 
 import java.util.List;
 
@@ -35,6 +31,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ChapterList chapterList;
     private ChapterContent chapterContent;
+    private SearchNovel searchNovel;
     final FragmentManager fm = getFragmentManager();
     private void ad()
     {
@@ -44,23 +41,27 @@ public class MainActivity extends AppCompatActivity
     private void setDefaultFragment()
     {
 
-        chapterList = new ChapterList();
-        chapterList.setOnItemSelectListener(new ChapterList.OnItemSelectListener() {
-            @Override
-            public void SelectItem(String data,String title) {
-                if (chapterContent == null)
-                {
-                    chapterContent = new ChapterContent();
-                }
-                setTitle(title);
-               fm.beginTransaction()
-               .replace(R.id.id_content,chapterContent)
-               .commit();
-                chapterContent.setLocalData(data);
-            }
-        });
+//        chapterList = new ChapterList();
+//        chapterList.setOnItemSelectListener(new ChapterList.OnItemSelectListener() {
+//            @Override
+//            public void SelectItem(String data,String title) {
+//                if (chapterContent == null)
+//                {
+//                    chapterContent = new ChapterContent();
+//                }
+//                setTitle(title);
+//               fm.beginTransaction()
+//               .replace(R.id.id_content,chapterContent)
+//               .commit();
+//                chapterContent.setLocalData(data);
+//            }
+//        });
+        if (null == searchNovel)
+        {
+            searchNovel = new SearchNovel();
+        }
         fm.beginTransaction()
-                .replace(R.id.id_content,chapterList)
+                .replace(R.id.id_content,searchNovel)
                 .commit();
 
     }
@@ -73,14 +74,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         init();
         //ad();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -104,10 +98,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void handle() {
-        NovelManagerBiQuGe manger = new NovelManagerBiQuGe();
+
         Novel novel = new Novel();
         novel.setName("真武世界");
-        manger.SerachNovel(novel, new SearchCallBack() {
+        NovelManagerBiQuGe.getInstance().SearchNovel(novel, new SearchCallBack() {
             @Override
             public void SearchResult(List<Novel> list) {
                 for (Novel n : list)

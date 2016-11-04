@@ -1,5 +1,7 @@
 package com.mt23.novel.novel.source.imple;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import com.mt23.novel.novel.source.Novel;
 import com.mt23.novel.novel.source.NovelManager;
@@ -26,9 +28,18 @@ public class NovelManagerBiQuGe implements NovelManager{
     public static String API_BUXIUFANREN = "/0/837/";
     private String searchUrl = "http://zhannei.baidu.com/cse/search";
 //    private String searchUrl = "http://zhannei.baidu.com/cse/searchUrl?s=287293036948159515&q=%E7%9C%9F%E6%AD%A6%E4%B8%96%E7%95%8C";
+    private static NovelManagerBiQuGe single;
+    private NovelManagerBiQuGe(){
 
+    }
+    public static NovelManagerBiQuGe getInstance()
+    {
+        if (single == null)
+            single = new NovelManagerBiQuGe();
+        return single;
+    }
     @Override
-    public void SerachNovel(Novel novel, final SearchCallBack searchCallBack) {
+    public void SearchNovel(Novel novel, final SearchCallBack searchCallBack) {
         Map<String,String> params = new HashMap<>();
         params.put("s","287293036948159515");
         params.put("q",novel.getName());
@@ -73,7 +84,13 @@ public class NovelManagerBiQuGe implements NovelManager{
                             novelList.add(novel);
 
                         }
-                        searchCallBack.SearchResult(novelList);
+                        if(searchCallBack != null)
+                        {
+                            HandlerMessage handlerMessage = new HandlerMessage();
+                            handlerMessage.novels = novelList;
+                            handlerMessage.searchCallBack = searchCallBack;
+                            mHandler.obtainMessage(1,handlerMessage).sendToTarget();
+                        }
 
                     }
 
@@ -87,6 +104,24 @@ public class NovelManagerBiQuGe implements NovelManager{
 
                     }
                 });
+    }
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1)
+            {
+                HandlerMessage handlerMessage = (HandlerMessage) msg.obj;
+                handlerMessage.callback();
+            }
+        }
+    };
+    class HandlerMessage {
+        public SearchCallBack searchCallBack;
+        public List<Novel> novels;
+        public void callback(){
+            searchCallBack.SearchResult(novels);
+        }
     }
     abstract class HtmlDomCallBack extends Callback
     {
