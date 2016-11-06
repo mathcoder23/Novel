@@ -93,23 +93,8 @@ public class MainActivity extends AppCompatActivity
         serviceTwo.setClass(MainActivity.this, ServiceTwo.class);
         startService(serviceTwo);
         setDefaultFragment();
-        setTitle("不朽凡人传");
-        handle();
-    }
+        setTitle(searchNovel.getFragmentTitle());
 
-    private void handle() {
-
-        Novel novel = new Novel();
-        novel.setName("真武世界");
-        NovelManagerBiQuGe.getInstance().SearchNovel(novel, new SearchCallBack() {
-            @Override
-            public void SearchResult(List<Novel> list) {
-                for (Novel n : list)
-                {
-                    Log.i("xixi","info:"+n.toString());
-                }
-            }
-        });
     }
 
     private void init() {

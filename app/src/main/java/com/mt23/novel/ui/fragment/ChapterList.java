@@ -22,7 +22,7 @@ import java.util.Objects;
 /**
  * Created by mathcoder23 on 11/1/16.
  */
-public class ChapterList extends Fragment implements StoryBiquge.StoryData{
+public class ChapterList extends BaseFragment implements StoryBiquge.StoryData{
     private ListView lvChapter;
     private StoryBiquge storyBiquge;
     private Context mContext;
@@ -69,4 +69,8 @@ public class ChapterList extends Fragment implements StoryBiquge.StoryData{
         }
     }
 
+    @Override
+    public String getFragmentTitle() {
+        return "小说列表";
+    }
 }

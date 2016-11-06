@@ -4,14 +4,15 @@ import android.app.Fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.*;
 import com.mt23.novel.R;
 import com.mt23.novel.novel.source.Novel;
 import com.mt23.novel.novel.source.SearchCallBack;
@@ -25,35 +26,38 @@ import java.util.Map;
 /**
  * Created by mathcoder23 on 11/4/16.
  */
-public class SearchNovel extends Fragment implements SearchCallBack{
+public class SearchNovel extends BaseFragment implements SearchCallBack{
     private EditText etSearch;
     private ListView lvSearchResult;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_novel,container,false);
         etSearch = (EditText) view.findViewById(R.id.et_search);
         lvSearchResult = (ListView) view.findViewById(R.id.lv_search_result);
-        etSearch.setOnTouchListener(new View.OnTouchListener() {
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
 
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // et.getCompoundDrawables()得到一个长度为4的数组，分别表示左右上下四张图片
-                Drawable drawable = etSearch.getCompoundDrawables()[2];
-                //如果右边没有图片，不再处理
-                if (drawable == null)
-                    return false;
-                //如果不是按下事件，不再处理
-                if (event.getAction() != MotionEvent.ACTION_UP)
-                    return false;
-                if (event.getX() > etSearch.getWidth()
-                        - etSearch.getPaddingRight()
-                        - drawable.getIntrinsicWidth()){
-                    Novel novel = new Novel();
-                    novel.setName(etSearch.getText().toString());
-                    NovelManagerBiQuGe.getInstance().SearchNovel(novel,SearchNovel.this);
-                }
-                return false;
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Novel novel = new Novel();
+                novel.setName(charSequence.toString());
+                NovelManagerBiQuGe.getInstance().SearchNovel(novel,SearchNovel.this);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+        lvSearchResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Map<String,String> map = (Map<String, String>) adapterView.getItemAtPosition(i);
+                Toast.makeText(SearchNovel.this.getActivity(),""+map.get("url"),Toast.LENGTH_SHORT).show();
             }
         });
         return view;
@@ -65,10 +69,26 @@ public class SearchNovel extends Fragment implements SearchCallBack{
         for (Novel novel : list)
         {
             Map<String,String> n = new HashMap<>();
+            n.put("url",novel.getUrl());
             n.put("name",novel.getName());
+            n.put("author",novel.getAuthor());
+            n.put("type",novel.getType());
+            n.put("updatetime",novel.getUpdateTime());
+            n.put("lastchapter",novel.getLastChapter());
             data.add(n);
         }
-        SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(),data,R.layout.list_search_result,new String[]{"name"},new int[]{R.id.list_search_name});
+        SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(),data,R.layout.list_search_result,
+                new String[]{"name","author","type","updatetime","lastchapter"},
+                new int[]{R.id.list_search_name,
+                        R.id.list_search_author,
+                        R.id.list_search_type,
+                        R.id.list_search_updatetime,
+                        R.id.list_search_lastchapter});
         lvSearchResult.setAdapter(simpleAdapter);
+    }
+
+    @Override
+    public String getFragmentTitle() {
+        return "小说搜索";
     }
 }

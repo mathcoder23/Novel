@@ -12,7 +12,7 @@ import com.mt23.novel.R;
 /**
  * Created by mathcoder23 on 11/1/16.
  */
-public class ChapterContent extends Fragment {
+public class ChapterContent extends BaseFragment {
     private WebView webView;
     private String localData;
     @Nullable
@@ -23,6 +23,11 @@ public class ChapterContent extends Fragment {
         webView.getSettings().setDefaultTextEncodingName("UTF-8");
         webView.loadData(localData,"text/html; charset=UTF-8",null);
         return view;
+    }
+
+    @Override
+    public String getFragmentTitle() {
+        return "小说章节";
     }
 
     public void setLocalData(String localData) {

@@ -4,8 +4,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_menu_camera"
               android:id="@+id/et_search"
+              android:hint="请输入小说或作者"
     />
     <ListView android:layout_width="match_parent" android:layout_height="match_parent"
         android:id="@+id/lv_search_result"

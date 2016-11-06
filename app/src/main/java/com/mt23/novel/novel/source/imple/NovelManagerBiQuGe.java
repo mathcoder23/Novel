@@ -5,6 +5,7 @@ import android.os.Message;
 import android.util.Log;
 import com.mt23.novel.novel.source.Novel;
 import com.mt23.novel.novel.source.NovelManager;
+import com.mt23.novel.novel.source.NovelSearchFilter;
 import com.mt23.novel.novel.source.SearchCallBack;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -87,6 +88,7 @@ public class NovelManagerBiQuGe implements NovelManager{
                         if(searchCallBack != null)
                         {
                             HandlerMessage handlerMessage = new HandlerMessage();
+                            NovelSearchFilter.Filter(novelList);
                             handlerMessage.novels = novelList;
                             handlerMessage.searchCallBack = searchCallBack;
                             mHandler.obtainMessage(1,handlerMessage).sendToTarget();
