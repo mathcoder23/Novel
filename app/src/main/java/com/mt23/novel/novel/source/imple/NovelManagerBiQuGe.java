@@ -3,10 +3,8 @@ package com.mt23.novel.novel.source.imple;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import com.mt23.novel.novel.source.Novel;
-import com.mt23.novel.novel.source.NovelManager;
-import com.mt23.novel.novel.source.NovelSearchFilter;
-import com.mt23.novel.novel.source.SearchCallBack;
+import com.mt23.novel.novel.source.*;
+import com.mt23.novel.ui.fragment.SearchNovel;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 import okhttp3.Call;
@@ -16,10 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by mathcoder23 on 16/11/3.
@@ -87,10 +82,10 @@ public class NovelManagerBiQuGe implements NovelManager{
                         }
                         if(searchCallBack != null)
                         {
-                            HandlerMessage handlerMessage = new HandlerMessage();
+                            HandlerMessage<Novel> handlerMessage = new HandlerMessage();
                             NovelSearchFilter.Filter(novelList);
-                            handlerMessage.novels = novelList;
-                            handlerMessage.searchCallBack = searchCallBack;
+                            handlerMessage.list = novelList;
+                            handlerMessage.callback = searchCallBack;
                             mHandler.obtainMessage(1,handlerMessage).sendToTarget();
                         }
 
@@ -107,23 +102,75 @@ public class NovelManagerBiQuGe implements NovelManager{
                     }
                 });
     }
+
+    @Override
+    public void NovelChapterList(Novel novel, final ChapterListCallBack chapterListCallBack) {
+        OkHttpUtils.get()//
+                .tag(this)//
+                .url(searchUrl)
+                .build()
+                .execute(new HtmlDomCallBack() {
+                    @Override
+                    public void onResponseString(Document dom) throws Exception {
+                        Elements dd = dom.getElementsByTag("dd");
+                        List<Chapter> chapters = new ArrayList<Chapter>();
+                        for (Element d : dd)
+                        {
+                            Elements a = d.getElementsByTag("a");
+                            if (null != a && a.size() == 1)
+                            {
+                                Chapter chapter = new Chapter();
+                                chapter.setName(a.html());
+                                chapter.setUrl(a.attr("href"));
+                                chapters.add(chapter);
+
+                            }
+                            else
+                            {
+                                Log.i("xixi","章节列表格式不正确!");
+                            }
+                        }
+                        Collections.reverse(chapters);
+                        HandlerMessage<Chapter> handlerMessage = new HandlerMessage();
+                        handlerMessage.callback = chapterListCallBack;
+                        handlerMessage.list = chapters;
+                        mHandler.obtainMessage(2,handlerMessage).sendToTarget();
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Object o) {
+
+                    }
+                });
+    }
+
     Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1)
             {
-                HandlerMessage handlerMessage = (HandlerMessage) msg.obj;
-                handlerMessage.callback();
+                HandlerMessage<Novel> handlerMessage = (HandlerMessage) msg.obj;
+                SearchCallBack searchNovel = (SearchCallBack) handlerMessage.callback;
+                searchNovel.SearchResult(handlerMessage.list);
+            }
+            else if (msg.what == 2)
+            {
+                HandlerMessage<Chapter> handlerMessage = (HandlerMessage) msg.obj;
+                ChapterListCallBack callback = (ChapterListCallBack) handlerMessage.callback;
+                callback.chapterList(handlerMessage.list);
             }
         }
     };
-    class HandlerMessage {
-        public SearchCallBack searchCallBack;
-        public List<Novel> novels;
-        public void callback(){
-            searchCallBack.SearchResult(novels);
-        }
+    class HandlerMessage<T> {
+        public Object callback;
+        public List<T> list;
+
     }
     abstract class HtmlDomCallBack extends Callback
     {

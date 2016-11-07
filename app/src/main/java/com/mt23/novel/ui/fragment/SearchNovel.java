@@ -17,6 +17,7 @@ import com.mt23.novel.R;
 import com.mt23.novel.novel.source.Novel;
 import com.mt23.novel.novel.source.SearchCallBack;
 import com.mt23.novel.novel.source.imple.NovelManagerBiQuGe;
+import com.mt23.novel.utils.ListMapBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,17 +69,11 @@ public class SearchNovel extends BaseFragment implements SearchCallBack{
         List<Map<String,String>> data = new ArrayList<>();
         for (Novel novel : list)
         {
-            Map<String,String> n = new HashMap<>();
-            n.put("url",novel.getUrl());
-            n.put("name",novel.getName());
-            n.put("author",novel.getAuthor());
-            n.put("type",novel.getType());
-            n.put("updatetime",novel.getUpdateTime());
-            n.put("lastchapter",novel.getLastChapter());
+            Map<String,String> n = ListMapBean.BeanToMap(novel);
             data.add(n);
         }
         SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(),data,R.layout.list_search_result,
-                new String[]{"name","author","type","updatetime","lastchapter"},
+                new String[]{"name","author","type","updateTime","lastChapter"},
                 new int[]{R.id.list_search_name,
                         R.id.list_search_author,
                         R.id.list_search_type,

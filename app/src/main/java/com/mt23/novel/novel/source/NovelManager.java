@@ -5,4 +5,5 @@ package com.mt23.novel.novel.source;
  */
 public interface NovelManager {
     void SearchNovel(Novel novel, SearchCallBack searchCallBack);
+    void NovelChapterList(Novel novel,ChapterListCallBack chapterListCallBack);
 }
