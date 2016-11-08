@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.*;
+import com.mt23.novel.MainActivity;
 import com.mt23.novel.R;
 import com.mt23.novel.novel.source.Novel;
 import com.mt23.novel.novel.source.SearchCallBack;
@@ -30,11 +31,12 @@ import java.util.Map;
 public class SearchNovel extends BaseFragment implements SearchCallBack{
     private EditText etSearch;
     private ListView lvSearchResult;
-
+    private MainActivity mainActivity;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_novel,container,false);
+        mainActivity = (MainActivity) getActivity();
         etSearch = (EditText) view.findViewById(R.id.et_search);
         lvSearchResult = (ListView) view.findViewById(R.id.lv_search_result);
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -59,6 +61,7 @@ public class SearchNovel extends BaseFragment implements SearchCallBack{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Map<String,String> map = (Map<String, String>) adapterView.getItemAtPosition(i);
                 Toast.makeText(SearchNovel.this.getActivity(),""+map.get("url"),Toast.LENGTH_SHORT).show();
+                mainActivity.changeFragment(2,map.get("url"));
             }
         });
         return view;

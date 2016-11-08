@@ -38,30 +38,16 @@ public class MainActivity extends AppCompatActivity
         AdManager.getInstance().initFromKeymobService(this, "10857", null, false);
         AdManager.getInstance().showRelationBanner(BannerSizeType.BANNER, BannerPositions.BOTTOM_CENTER,0,this);
     }
+
     private void setDefaultFragment()
     {
 
-//        chapterList = new ChapterList();
-//        chapterList.setOnItemSelectListener(new ChapterList.OnItemSelectListener() {
-//            @Override
-//            public void SelectItem(String data,String title) {
-//                if (chapterContent == null)
-//                {
-//                    chapterContent = new ChapterContent();
-//                }
-//                setTitle(title);
-//               fm.beginTransaction()
-//               .replace(R.id.id_content,chapterContent)
-//               .commit();
-//                chapterContent.setLocalData(data);
-//            }
-//        });
         if (null == searchNovel)
         {
             searchNovel = new SearchNovel();
         }
         fm.beginTransaction()
-                .replace(R.id.id_content,searchNovel)
+                .add(R.id.id_content,searchNovel)
                 .commit();
 
     }
@@ -175,8 +161,40 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void changeFragment()
+    public void changeFragment(int id,String str)
     {
+        if (id == 2)
+        {
+            if (chapterList == null)
+            {
+                chapterList = new ChapterList();
+            }
+            chapterList.updateList(str);
+            fm.beginTransaction()
+                    .replace(R.id.id_content,chapterList)
+                    .commit();
+        }
+        else if (id == 1)
+        {
+            if (searchNovel == null)
+            {
+                searchNovel = new SearchNovel();
+            }
+            fm.beginTransaction()
+                    .replace(R.id.id_content,searchNovel)
+                    .commit();
+        }
+        else if (id == 3)
+        {
+            if (null == chapterContent)
+            {
+                chapterContent = new ChapterContent();
+            }
+            chapterContent.setLocalData(str);
+            fm.beginTransaction()
+                    .replace(R.id.id_content,chapterContent)
+                    .commit();
+        }
 
     }
 }

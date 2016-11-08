@@ -27,7 +27,7 @@ public class StoryBiquge {
     {
         this.storyData = storyData;
     }
-    public static String API_BASE = "http://www.biquge.cm";
+    public static String API_BASE = "http://www.biquge.com";
     public static String API_BUXIUFANREN = "/0/837/";
     public void getChapterContentBuxiufanrenzhuan(String url)
     {
@@ -39,7 +39,7 @@ public class StoryBiquge {
                     @Override
                     public Object parseNetworkResponse(Response response) throws Exception {
                         byte[] b = response.body().bytes(); //获取数据的bytes
-                        String info = new String(b, "GB2312"); //然后将其转为gb2312
+                        String info = new String(b, "UTF-8"); //然后将其转为gb2312
                         Document dom = Jsoup.parse(info);
                         Element element = dom.getElementById("content");
 
@@ -109,13 +109,13 @@ public class StoryBiquge {
     {
         OkHttpUtils.get()//
                 .tag(this)//
-                .url(API_BASE+url)
+                .url(url)
                 .build()
                 .execute(new Callback() {
                     @Override
                     public Object parseNetworkResponse(Response response) throws Exception {
                         byte[] b = response.body().bytes(); //获取数据的bytes
-                        String info = new String(b, "GB2312"); //然后将其转为gb2312
+                        String info = new String(b, "UTF-8"); //然后将其转为gb2312
                         Document dom = Jsoup.parse(info);
                         Elements dd = dom.getElementsByTag("dd");
                         List<Map<String,Object>> chapter = new ArrayList<>();

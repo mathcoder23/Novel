@@ -1,5 +1,7 @@
 package com.mt23.novel;
 
+import com.mt23.novel.novel.source.Novel;
+import com.mt23.novel.utils.ListMapBean;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -11,5 +13,9 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+    }
+    @Test
+    public void test(){
+        ListMapBean.ListToListmap(null,Novel.class);
     }
 }
