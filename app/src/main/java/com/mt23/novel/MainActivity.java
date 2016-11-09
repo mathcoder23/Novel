@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     private ChapterList chapterList;
     private ChapterContent chapterContent;
     private SearchNovel searchNovel;
+    private int fragmentState = 0;
     final FragmentManager fm = getFragmentManager();
     private void ad()
     {
@@ -92,8 +93,21 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            moveTaskToBack(false);
-            super.onBackPressed();
+            if(fragmentState == 3)
+            {
+                changeFragment(2,"");
+            }
+            else if (fragmentState == 2)
+            {
+                changeFragment(1,"");
+            }
+            else
+            {
+                moveTaskToBack(false);
+                super.onBackPressed();
+            }
+
+
         }
     }
 
@@ -149,10 +163,12 @@ public class MainActivity extends AppCompatActivity
     {
         if (id == 2)
         {
+            fragmentState=2;
             if (chapterList == null)
             {
                 chapterList = new ChapterList();
             }
+            if (str.length() > 0)
             chapterList.updateList(str);
             fm.beginTransaction()
                     .replace(R.id.id_content,chapterList)
@@ -160,6 +176,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == 1)
         {
+            fragmentState=1;
             if (searchNovel == null)
             {
                 searchNovel = new SearchNovel();
@@ -169,7 +186,7 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         }
         else if (id == 3)
-        {
+        {fragmentState=3;
             if (null == chapterContent)
             {
                 chapterContent = new ChapterContent();

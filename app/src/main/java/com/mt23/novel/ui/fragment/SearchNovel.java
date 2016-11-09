@@ -51,8 +51,10 @@ public class SearchNovel extends BaseFragment implements SearchCallBack{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
                 Novel novel = new Novel();
                 novel.setName(charSequence.toString());
+                if(novel.getName()!= null && novel.getName().length()>0)
                 NovelManagerBiQuGe.getInstance().SearchNovel(novel,SearchNovel.this);
             }
 
