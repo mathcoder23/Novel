@@ -128,26 +128,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
 
-            // Handle the camera action
-            if (chapterContent == null)
-            {
-                chapterContent = new ChapterContent();
-            }
-            // 使用当前Fragment的布局替代id_content的控件
-            fm.beginTransaction()
-                    .replace(R.id.id_content,chapterContent)
-                    .commit();
+            changeFragment(1,"");
 
         } else if (id == R.id.nav_gallery) {
-            setTitle("不朽凡人传");
-            if (chapterList == null)
-            {
-                chapterList = new ChapterList();
-            }
-            // 使用当前Fragment的布局替代id_content的控件
-            fm.beginTransaction()
-                    .replace(R.id.id_content,chapterList)
-                    .commit();
+
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

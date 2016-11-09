@@ -50,6 +50,10 @@ public class ListMapBean {
             Field[] fields = clas.getDeclaredFields();
             for (Field field : fields)
             {
+                if (field.isSynthetic())
+                {
+                    continue;
+                }
                 String name = field.getName();
                 field.setAccessible(true);
                 field.set(obj,map.get(name));
