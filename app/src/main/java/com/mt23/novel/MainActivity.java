@@ -1,6 +1,8 @@
 package com.mt23.novel;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,18 +42,7 @@ public class MainActivity extends AppCompatActivity
         AdManager.getInstance().showRelationBanner(BannerSizeType.BANNER, BannerPositions.BOTTOM_CENTER,0,this);
     }
 
-    private void setDefaultFragment()
-    {
 
-        if (null == searchNovel)
-        {
-            searchNovel = new SearchNovel();
-        }
-        fm.beginTransaction()
-                .add(R.id.id_content,searchNovel)
-                .commit();
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         Intent serviceTwo = new Intent();
         serviceTwo.setClass(MainActivity.this, ServiceTwo.class);
         startService(serviceTwo);
-        setDefaultFragment();
+        changeFragment(1,"");
         setTitle(searchNovel.getFragmentTitle());
 
     }
@@ -93,19 +84,10 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if(fragmentState == 3)
-            {
-                changeFragment(2,"");
-            }
-            else if (fragmentState == 2)
-            {
-                changeFragment(1,"");
-            }
-            else
-            {
-                moveTaskToBack(false);
+
+//                moveTaskToBack(false);
                 super.onBackPressed();
-            }
+
 
 
         }
@@ -163,39 +145,90 @@ public class MainActivity extends AppCompatActivity
     {
         if (id == 2)
         {
-            fragmentState=2;
+
             if (chapterList == null)
             {
                 chapterList = new ChapterList();
+
+            }
+            if (chapterList.isAdded())
+            {
+                fm.beginTransaction()
+                        .hide(searchNovel)
+                        .show(chapterList)
+                        .addToBackStack(null)
+                        .commit();
+            }
+            else
+            {
+
+                fm.beginTransaction()
+                        .hide(searchNovel)
+                        .add(R.id.id_content,chapterList)
+                        .addToBackStack(null)
+                        .commit();
             }
             if (str.length() > 0)
             chapterList.updateList(str);
-            fm.beginTransaction()
-                    .replace(R.id.id_content,chapterList)
-                    .commit();
+
         }
         else if (id == 1)
         {
-            fragmentState=1;
+
             if (searchNovel == null)
             {
                 searchNovel = new SearchNovel();
+
             }
-            fm.beginTransaction()
-                    .replace(R.id.id_content,searchNovel)
-                    .commit();
+           if (searchNovel.isAdded())
+           {
+               fm.beginTransaction()
+                       .hide(chapterContent)
+                       .hide(chapterList)
+                       .show(searchNovel)
+                       .addToBackStack(null)
+                       .commit();
+
+           }
+           else
+           {
+               fm.beginTransaction()
+                       .add(R.id.id_content,searchNovel)
+                       .addToBackStack(null)
+                       .commit();
+           }
+
+
         }
         else if (id == 3)
-        {fragmentState=3;
+        {
             if (null == chapterContent)
             {
                 chapterContent = new ChapterContent();
+
             }
             chapterContent.setLocalData(str);
-            fm.beginTransaction()
-                    .replace(R.id.id_content,chapterContent)
-                    .commit();
+            if (chapterContent.isAdded())
+            {
+                fm.beginTransaction()
+                        .hide(chapterList)
+                        .show(chapterContent)
+                        .addToBackStack(null)
+                        .commit();
+            }
+            else
+            {
+                fm.beginTransaction()
+                        .hide(chapterList)
+                        .add(R.id.id_content,chapterContent)
+                        .addToBackStack(null)
+                        .commit();
+            }
+
+
+
         }
 
     }
+
 }
