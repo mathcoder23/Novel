@@ -120,10 +120,9 @@ public class NovelManagerBiQuGe implements NovelManager{
                             if (null != a && a.size() == 1)
                             {
                                 Chapter chapter = new Chapter();
-                                chapter.setName(a.html());
+                                chapter.setTitle(a.html());
                                 chapter.setUrl(a.attr("href"));
                                 chapters.add(chapter);
-
                             }
                             else
                             {
@@ -149,6 +148,35 @@ public class NovelManagerBiQuGe implements NovelManager{
                 });
     }
 
+    @Override
+    public void NovelChapterContent(final Chapter chapter, final ChapterContentCallback chapterContentCallback) {
+            OkHttpUtils.get()
+                    .tag(this)
+                    .url(chapter.getUrl())
+                    .build()
+                    .execute(new HtmlDomCallBack() {
+                        @Override
+                        public void onResponseString(Document dom) throws Exception {
+                            Element element = dom.getElementById("content");
+                            chapter.setContent(element.html());
+                            HandlerMessage handlerMessage = new HandlerMessage();
+                            handlerMessage.callback = chapterContentCallback;
+                            handlerMessage.obj = chapter;
+                            mHandler.obtainMessage(3,handlerMessage).sendToTarget();
+                        }
+
+                        @Override
+                        public void onError(Call call, Exception e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Object o) {
+
+                        }
+                    });
+    }
+
     Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -165,11 +193,19 @@ public class NovelManagerBiQuGe implements NovelManager{
                 ChapterListCallBack callback = (ChapterListCallBack) handlerMessage.callback;
                 callback.chapterList(handlerMessage.list);
             }
+            else if (msg.what == 3)
+            {
+                HandlerMessage handlerMessage = (HandlerMessage) msg.obj;
+                ChapterContentCallback callback = (ChapterContentCallback) handlerMessage.callback;
+                callback.result((Chapter) handlerMessage.obj);
+
+            }
         }
     };
     class HandlerMessage<T> {
         public Object callback;
         public List<T> list;
+        public Object obj;
 
     }
     abstract class HtmlDomCallBack extends Callback

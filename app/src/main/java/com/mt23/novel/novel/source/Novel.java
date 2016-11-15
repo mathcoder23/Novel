@@ -1,5 +1,7 @@
 package com.mt23.novel.novel.source;
 
+import java.util.List;
+
 /**
  * Created by mathcoder23 on 16/11/3.
  */
@@ -13,6 +15,7 @@ public class Novel {
     private String updateTime;
     private String lastChapter;
     private String lastChapterUrl;
+    private List<Chapter> chapterList;
     public String getName() {
         return name;
     }
@@ -100,4 +103,11 @@ public class Novel {
         this.lastChapterUrl = lastChapterUrl;
     }
 
+    public List<Chapter> getChapterList() {
+        return chapterList;
+    }
+
+    public void setChapterList(List<Chapter> chapterList) {
+        this.chapterList = chapterList;
+    }
 }

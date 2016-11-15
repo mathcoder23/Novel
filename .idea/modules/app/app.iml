@@ -91,6 +91,7 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/incremental-classes" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/incremental-runtime-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/incremental-safeguard" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/incremental-verifier" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/jniLibs" />
@@ -99,12 +100,13 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/restart-dex" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/rs" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/shaders" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/../../../app/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 23 Platform " jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="design-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.4.0" level="project" />
