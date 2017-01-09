@@ -19,6 +19,7 @@ import com.keymob.networks.core.BannerPositions;
 import com.keymob.networks.core.BannerSizeType;
 import com.mt23.novel.novel.source.Novel;
 import com.mt23.novel.novel.source.NovelManager;
+import com.mt23.novel.novel.source.NovelResourceManager;
 import com.mt23.novel.novel.source.SearchCallBack;
 import com.mt23.novel.novel.source.imple.NovelManagerBiQuGe;
 import com.mt23.novel.service.ServiceOne;
@@ -52,7 +53,12 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         init();
         //ad();
-
+        NovelResourceManager novelResourceManager = new NovelResourceManager();
+        novelResourceManager.searchNovelByName("aa").success(
+                (String string)->{
+                    Log.i("xixi",string);
+                }
+        );
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
