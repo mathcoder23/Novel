@@ -27,6 +27,7 @@ import com.mt23.novel.service.ServiceTwo;
 import com.mt23.novel.ui.fragment.ChapterContent;
 import com.mt23.novel.ui.fragment.ChapterList;
 import com.mt23.novel.ui.fragment.SearchNovel;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.List;
 
@@ -53,12 +54,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         init();
         //ad();
-        NovelResourceManager novelResourceManager = new NovelResourceManager();
-        novelResourceManager.searchNovelByName("aa").success(
-                (String string)->{
-                    Log.i("xixi",string);
-                }
-        );
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -82,6 +78,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void init() {
+
     }
 
     @Override

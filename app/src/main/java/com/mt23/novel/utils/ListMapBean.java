@@ -32,9 +32,13 @@ public class ListMapBean {
             {
                 String key = field.getName();
                 field.setAccessible(true);
-                String value = field.get(obj)+"";
+                if (field.get(obj)!=null)
+                {
+                    String value = field.get(obj)+"";
 
-                map.put(key,value);
+                    map.put(key,value);
+                }
+
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -56,6 +60,7 @@ public class ListMapBean {
                 }
                 String name = field.getName();
                 field.setAccessible(true);
+                if(map.get(name)!=null)
                 field.set(obj,map.get(name));
             }
 

@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import com.mt23.novel.novel.source.*;
-import com.mt23.novel.ui.fragment.SearchNovel;
+import com.mt23.novel.novel.source.novel.parser.NovelSearchFilter;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 import okhttp3.Call;
@@ -208,7 +208,7 @@ public class NovelManagerBiQuGe implements NovelManager{
         public Object obj;
 
     }
-    abstract class HtmlDomCallBack extends Callback
+    public abstract class HtmlDomCallBack extends Callback
     {
         @Override
         public Object parseNetworkResponse(Response response) throws Exception {

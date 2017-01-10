@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.mt23.novel.MainActivity;
 import com.mt23.novel.R;
 import com.mt23.novel.novel.source.Novel;
+import com.mt23.novel.novel.source.NovelResourceManager;
 import com.mt23.novel.novel.source.SearchCallBack;
 import com.mt23.novel.novel.source.imple.NovelManagerBiQuGe;
 import com.mt23.novel.utils.ListMapBean;
@@ -32,10 +33,13 @@ import static com.mt23.novel.local.PrefersManger.SEARCH_RECODE;
 /**
  * Created by mathcoder23 on 11/4/16.
  */
-public class SearchNovel extends BaseFragment implements SearchCallBack{
+public class SearchNovel extends BaseFragment {
     private EditText etSearch;
     private ListView lvSearchResult;
     private MainActivity mainActivity;
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -51,15 +55,28 @@ public class SearchNovel extends BaseFragment implements SearchCallBack{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String name = charSequence.toString();
 
-                Novel novel = new Novel();
-                novel.setName(charSequence.toString());
-                if(novel.getName()!= null && novel.getName().length()>0)
-                NovelManagerBiQuGe.getInstance().SearchNovel(novel,SearchNovel.this);
+                if(name!= null && name.length()>0)
+                {
+                    NovelResourceManager
+                            .getInstance()
+                            .searchNovelByName(name)
+                            .success((List<Novel> novelList)->{
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        updateList(novelList);
+                                    }
+                                });
+
+                            });
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+
             }
         });
         lvSearchResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,7 +88,7 @@ public class SearchNovel extends BaseFragment implements SearchCallBack{
                 PrefersHelper.setValue(SEARCH_RECODE,novel.getName(),JSON.toJSONString(novel));
             }
         });
-        showSearchRecode();
+//        showSearchRecode();
         return view;
 
     }
@@ -84,10 +101,16 @@ public class SearchNovel extends BaseFragment implements SearchCallBack{
             Novel novel = JSON.parseObject(datas.get(key),Novel.class);
             list.add(ListMapBean.BeanToMap(novel));
         }
-        updateList(list);
+        //updateList(list);
     }
-    private void updateList(List<Map<String,String>> data)
+    private void updateList(List<Novel> list)
     {
+        List<Map<String,String>> data = new ArrayList<>();
+        for (Novel novel : list)
+        {
+            Map<String,String> n = ListMapBean.BeanToMap(novel);
+            data.add(n);
+        }
         SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(),data,R.layout.list_search_result,
                 new String[]{"name","author","type","updateTime","lastChapter"},
                 new int[]{R.id.list_search_name,
@@ -97,16 +120,8 @@ public class SearchNovel extends BaseFragment implements SearchCallBack{
                         R.id.list_search_lastchapter});
         lvSearchResult.setAdapter(simpleAdapter);
     }
-    @Override
-    public void SearchResult(List<Novel> list) {
-        List<Map<String,String>> data = new ArrayList<>();
-        for (Novel novel : list)
-        {
-            Map<String,String> n = ListMapBean.BeanToMap(novel);
-            data.add(n);
-        }
-        updateList(data);
-    }
+
+
 
     @Override
     public String getFragmentTitle() {
