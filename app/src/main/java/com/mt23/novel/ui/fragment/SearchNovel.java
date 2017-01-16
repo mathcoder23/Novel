@@ -85,7 +85,7 @@ public class SearchNovel extends BaseFragment {
                 Map<String,String> map = (Map<String, String>) adapterView.getItemAtPosition(i);
                 Novel novel = (Novel) ListMapBean.MapToBean(map,Novel.class);
                 mainActivity.changeFragment(2,novel.getUrl());
-                PrefersHelper.setValue(SEARCH_RECODE,novel.getName(),JSON.toJSONString(novel));
+                //PrefersHelper.setValue(SEARCH_RECODE,novel.getName(),JSON.toJSONString(novel));
             }
         });
 //        showSearchRecode();

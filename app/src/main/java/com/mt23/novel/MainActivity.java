@@ -26,6 +26,7 @@ import com.mt23.novel.service.ServiceOne;
 import com.mt23.novel.service.ServiceTwo;
 import com.mt23.novel.ui.fragment.ChapterContent;
 import com.mt23.novel.ui.fragment.ChapterList;
+import com.mt23.novel.ui.fragment.NovelContent;
 import com.mt23.novel.ui.fragment.SearchNovel;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     private ChapterList chapterList;
     private ChapterContent chapterContent;
     private SearchNovel searchNovel;
+    private NovelContent novelContent;
     private int fragmentState = 0;
     final FragmentManager fm = getFragmentManager();
     private void ad()
@@ -72,8 +74,8 @@ public class MainActivity extends AppCompatActivity
         Intent serviceTwo = new Intent();
         serviceTwo.setClass(MainActivity.this, ServiceTwo.class);
         startService(serviceTwo);
-        changeFragment(1,"");
-        setTitle(searchNovel.getFragmentTitle());
+        changeFragment(4,"");
+//        setTitle(searchNovel.getFragmentTitle());
 
     }
 
@@ -230,6 +232,17 @@ public class MainActivity extends AppCompatActivity
 
 
 
+        }
+        else if (id == 4)
+        {
+            if (null == novelContent)
+            {
+                novelContent = new NovelContent();
+            }
+            fm.beginTransaction()
+                    .add(R.id.id_content,novelContent)
+                    .addToBackStack(null)
+                    .commit();
         }
 
     }
