@@ -7,4 +7,13 @@ import android.app.Fragment;
  */
 public abstract class BaseFragment extends Fragment {
     public abstract String getFragmentTitle();
+    public void loading(){
+
+    }
+    public void cancelLoad(){
+
+    }
+    public void finishLoad(){
+
+    }
 }

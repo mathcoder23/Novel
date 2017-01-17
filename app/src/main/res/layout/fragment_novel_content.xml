@@ -17,12 +17,16 @@
     >
         <Button android:layout_width="0dp" android:layout_height="wrap_content"
             android:layout_weight="1" android:text="上一章"
+                android:id="@+id/btn_novel_content_pre_chapter"
         />
         <Button android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="目录"
+                android:id="@+id/btn_novel_content_catalog"
         />
         <Button android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="下一章"
+                android:id="@+id/btn_novel_content_next_chapter"
+
         />
     </LinearLayout>
 </LinearLayout>
