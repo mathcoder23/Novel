@@ -1,30 +1,22 @@
 package com.mt23.novel.ui.fragment;
 
-import android.app.Fragment;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.*;
 import com.alibaba.fastjson.JSON;
 import com.mt23.novel.MainActivity;
 import com.mt23.novel.R;
-import com.mt23.novel.novel.source.Novel;
-import com.mt23.novel.novel.source.NovelResourceManager;
-import com.mt23.novel.novel.source.SearchCallBack;
-import com.mt23.novel.novel.source.imple.NovelManagerBiQuGe;
+import com.mt23.novel.novel.service.Novel;
+import com.mt23.novel.novel.service.NovelResourceManager;
 import com.mt23.novel.utils.ListMapBean;
 import com.mt23.novel.utils.PrefersHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

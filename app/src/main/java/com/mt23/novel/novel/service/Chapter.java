@@ -1,4 +1,4 @@
-package com.mt23.novel.ui.fragment;
+package com.mt23.novel.novel.service;
 
 import com.mt23.novel.utils.Promise.Promiser;
 
@@ -56,5 +56,37 @@ Boolean isDownload=false，是否下载
 
     public boolean isDownload() {
         return isDownload;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setLocalUrl(String localUrl) {
+        this.localUrl = localUrl;
+    }
+
+    public void setReadable(boolean readable) {
+        isReadable = readable;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
+
+    public void setDownload(boolean download) {
+        isDownload = download;
     }
 }

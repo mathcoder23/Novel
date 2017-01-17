@@ -1,6 +1,7 @@
-package com.mt23.novel.novel.source.novel.parser;
+package com.mt23.novel.novel.service.parser;
 
-import com.mt23.novel.novel.source.Novel;
+
+import com.mt23.novel.novel.service.Novel;
 
 import java.util.List;
 

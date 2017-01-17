@@ -1,11 +1,8 @@
 package com.mt23.novel;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,25 +14,12 @@ import android.view.MenuItem;
 import com.keymob.networks.AdManager;
 import com.keymob.networks.core.BannerPositions;
 import com.keymob.networks.core.BannerSizeType;
-import com.mt23.novel.novel.source.Novel;
-import com.mt23.novel.novel.source.NovelManager;
-import com.mt23.novel.novel.source.NovelResourceManager;
-import com.mt23.novel.novel.source.SearchCallBack;
-import com.mt23.novel.novel.source.imple.NovelManagerBiQuGe;
-import com.mt23.novel.service.ServiceOne;
-import com.mt23.novel.service.ServiceTwo;
-import com.mt23.novel.ui.fragment.ChapterContent;
-import com.mt23.novel.ui.fragment.ChapterList;
 import com.mt23.novel.ui.fragment.NovelContent;
 import com.mt23.novel.ui.fragment.SearchNovel;
-import com.zhy.http.okhttp.OkHttpUtils;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private ChapterList chapterList;
-    private ChapterContent chapterContent;
+
     private SearchNovel searchNovel;
     private NovelContent novelContent;
     private int fragmentState = 0;
@@ -67,13 +51,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Intent serviceOne = new Intent();
-        serviceOne.setClass(MainActivity.this, ServiceOne.class);
-        startService(serviceOne);
 
-        Intent serviceTwo = new Intent();
-        serviceTwo.setClass(MainActivity.this, ServiceTwo.class);
-        startService(serviceTwo);
         changeFragment(4,"");
 //        setTitle(searchNovel.getFragmentTitle());
 
@@ -151,84 +129,16 @@ public class MainActivity extends AppCompatActivity
         if (id == 2)
         {
 
-            if (chapterList == null)
-            {
-                chapterList = new ChapterList();
-
-            }
-            if (chapterList.isAdded())
-            {
-                fm.beginTransaction()
-                        .hide(searchNovel)
-                        .show(chapterList)
-                        .addToBackStack(null)
-                        .commit();
-            }
-            else
-            {
-
-                fm.beginTransaction()
-                        .hide(searchNovel)
-                        .add(R.id.id_content,chapterList)
-                        .addToBackStack(null)
-                        .commit();
-            }
-            if (str.length() > 0)
-            chapterList.updateList(str);
 
         }
         else if (id == 1)
         {
 
-            if (searchNovel == null)
-            {
-                searchNovel = new SearchNovel();
-
-            }
-           if (searchNovel.isAdded())
-           {
-               fm.beginTransaction()
-                       .hide(chapterContent)
-                       .hide(chapterList)
-                       .show(searchNovel)
-                       .addToBackStack(null)
-                       .commit();
-
-           }
-           else
-           {
-               fm.beginTransaction()
-                       .add(R.id.id_content,searchNovel)
-                       .addToBackStack(null)
-                       .commit();
-           }
 
 
         }
         else if (id == 3)
         {
-            if (null == chapterContent)
-            {
-                chapterContent = new ChapterContent();
-
-            }
-            chapterContent.setLocalData(str);
-            if (chapterContent.isAdded())
-            {
-                fm.beginTransaction()
-                        .hide(chapterList)
-                        .show(chapterContent)
-                        .addToBackStack(null)
-                        .commit();
-            }
-            else
-            {
-                fm.beginTransaction()
-                        .hide(chapterList)
-                        .add(R.id.id_content,chapterContent)
-                        .addToBackStack(null)
-                        .commit();
-            }
 
 
 

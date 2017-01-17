@@ -1,6 +1,8 @@
-package com.mt23.novel.novel.source.novel.parser;
+package com.mt23.novel.novel.service.parser;
 
-import com.mt23.novel.novel.source.Novel;
+import android.util.Log;
+import com.mt23.novel.novel.service.Chapter;
+import com.mt23.novel.novel.service.Novel;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -22,7 +24,7 @@ public class BIQUGENovelParser implements NovelParser {
             Novel novel = new Novel();
             novel.setUrl(ch.getElementsByClass("result-game-item-pic-link").get(0)
                     .attr("href"));
-            novel.setImgUrl(ch.getElementsByClass("result-game-item-pic-link-img").get(0)
+            novel.setCoverImgUrl(ch.getElementsByClass("result-game-item-pic-link-img").get(0)
                     .attr("src"));
             novel.setName(ch.getElementsByClass("result-game-item-title-link").get(0)
                     .html());
@@ -37,16 +39,36 @@ public class BIQUGENovelParser implements NovelParser {
             novel.setUpdateTime(ch.getElementsByClass("result-game-item-info-tag").get(2)
                     .getElementsByTag("span").get(1)
                     .html());
-            novel.setLastChapter(ch.getElementsByClass("result-game-item-info-tag").get(3)
-                    .getElementsByTag("a").get(0)
-                    .html());
-            novel.setLastChapterUrl(ch.getElementsByClass("result-game-item-info-tag").get(3)
-                    .getElementsByTag("a").get(0)
-                    .attr("href"));
+
             novelList.add(novel);
 
         }
         NovelSearchFilter.Filter(novelList);
         return novelList;
+    }
+
+    @Override
+    public List<Chapter> parserNovelChapters(Document dom) {
+        Elements dd = dom.getElementsByTag("dd");
+        List<Chapter> chapters = new ArrayList<Chapter>();
+        int i = 0;
+        for (Element d : dd)
+        {
+            Elements a = d.getElementsByTag("a");
+            if (null != a && a.size() == 1)
+            {
+                Chapter chapter = new Chapter();
+                chapter.setName(a.html());
+                chapter.setUrl(a.attr("href"));
+                chapter.setId(i);
+                i++;
+                chapters.add(chapter);
+            }
+            else
+            {
+                Log.i("xixi","章节列表格式不正确!");
+            }
+        }
+        return chapters;
     }
 }

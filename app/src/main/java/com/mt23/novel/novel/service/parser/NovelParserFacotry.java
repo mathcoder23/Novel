@@ -1,4 +1,4 @@
-package com.mt23.novel.novel.source.novel.parser;
+package com.mt23.novel.novel.service.parser;
 
 /**
  * Created by mathcoder23 on 1/10/17.

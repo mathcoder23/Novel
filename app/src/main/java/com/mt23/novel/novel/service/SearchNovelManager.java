@@ -1,6 +1,5 @@
-package com.mt23.novel;
+package com.mt23.novel.novel.service;
 
-import com.mt23.novel.novel.source.Novel;
 import com.mt23.novel.utils.Promise.Promiser;
 
 import java.util.List;

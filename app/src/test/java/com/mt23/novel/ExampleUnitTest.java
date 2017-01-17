@@ -1,6 +1,6 @@
 package com.mt23.novel;
 
-import com.mt23.novel.novel.source.Novel;
+import com.mt23.novel.novel.service.Novel;
 import com.mt23.novel.utils.ListMapBean;
 import org.junit.Test;
 

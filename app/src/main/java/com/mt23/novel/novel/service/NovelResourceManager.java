@@ -1,10 +1,7 @@
-package com.mt23.novel.novel.source;
+package com.mt23.novel.novel.service;
 
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import com.mt23.novel.novel.source.imple.NovelManagerBiQuGe;
-import com.mt23.novel.novel.source.novel.parser.NovelParserFacotry;
+import com.mt23.novel.novel.service.parser.NovelParserFacotry;
 import com.mt23.novel.utils.Promise.Promiser;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
@@ -33,10 +30,62 @@ public class NovelResourceManager {
         return single;
     }
     private String searchUrl = "http://zhannei.baidu.com/cse/search";
+    public Promiser<List<Chapter>,String> loadNovelCatalog(Novel novel)
+    {
+        Promiser<List<Chapter>,String> promise = new Promiser<>((Promiser.Resolver<List<Chapter>> resolve, Promiser.Rejecter<String> reject) ->{
+            OkHttpUtils.get()//
+                    .tag(this)//
+                    .url(searchUrl)
+                    .build()
+                    .execute(new HtmlDomCallBack() {
+                        @Override
+                        public void onResponseString(Document dom) throws Exception {
+                            List<Chapter> chapters = NovelParserFacotry.getBiQuge().parserNovelChapters(dom);
+                            resolve.run(chapters);
+                        }
 
+                        @Override
+                        public void onError(Call call, Exception e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Object o) {
+
+                        }
+                    });
+
+
+        });
+        return promise;
+    }
+    public void downloadNovelChapter(Novel novel,int chapterId)
+    {
+        OkHttpUtils.get()
+                .tag(this)
+                .url(novel.getChapterList().get(chapterId).getUrl())
+                .build()
+                .execute(new HtmlDomCallBack() {
+                    @Override
+                    public void onResponseString(Document dom) throws Exception {
+                        Element element = dom.getElementById("content");
+
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Object o) {
+
+                    }
+                });
+    }
     public Promiser<List<Novel>,String> searchNovelByName(String name){
 
-        Promiser<List<Novel>,String> promise = new Promiser<List<Novel>,String>((Promiser.Resolver<List<Novel>> resolve, Promiser.Rejecter<String> reject) ->{
+        Promiser<List<Novel>,String> promise = new Promiser<>((Promiser.Resolver<List<Novel>> resolve, Promiser.Rejecter<String> reject) ->{
             Map<String,String> params = new HashMap<>();
             params.put("s","287293036948159515");
             params.put("q",name);

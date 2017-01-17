@@ -6,10 +6,10 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.TextView;
 import com.mt23.novel.R;
-import com.mt23.novel.utils.Promise.Promiser;
+import com.mt23.novel.novel.service.Chapter;
+import com.mt23.novel.novel.service.Novel;
 import com.mt23.novel.utils.ToastUtils;
 
 /**
