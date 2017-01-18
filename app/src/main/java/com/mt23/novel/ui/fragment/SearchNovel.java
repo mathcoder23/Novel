@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.alibaba.fastjson.JSON;
-import com.mt23.novel.MainActivity;
+import com.mt23.novel.ui.activity.MainActivity;
 import com.mt23.novel.R;
 import com.mt23.novel.novel.service.Novel;
 import com.mt23.novel.novel.service.NovelResourceManager;
@@ -76,7 +76,6 @@ public class SearchNovel extends BaseFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Map<String,String> map = (Map<String, String>) adapterView.getItemAtPosition(i);
                 Novel novel = (Novel) ListMapBean.MapToBean(map,Novel.class);
-                mainActivity.changeFragment(2,novel.getUrl());
                 //PrefersHelper.setValue(SEARCH_RECODE,novel.getName(),JSON.toJSONString(novel));
             }
         });
