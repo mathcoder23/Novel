@@ -35,4 +35,5 @@ dependencies {
     compile 'com.github.xxl6097:okhttputils:2.4.1'
     compile 'org.jsoup:jsoup:1.10.1'
     compile 'com.alibaba:fastjson:1.2.20'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 }

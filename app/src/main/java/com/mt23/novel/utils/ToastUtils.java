@@ -2,13 +2,21 @@ package com.mt23.novel.utils;
 
 import android.content.Context;
 import android.widget.Toast;
+import com.mt23.novel.MyApplication;
 
 /**
  * ToastUtils
  * 
  */
 public class ToastUtils {
-
+    private static Toast toast;
+    public static void show(String msg)
+    {
+        if (null == toast)
+            toast = Toast.makeText(MyApplication.context,"", Toast.LENGTH_SHORT);
+        toast.setText(msg);
+        toast.show();
+    }
     public static void show(Context context, int resId) {
         show(context, context.getResources().getText(resId), Toast.LENGTH_SHORT);
     }

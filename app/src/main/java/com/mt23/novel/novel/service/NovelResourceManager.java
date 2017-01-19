@@ -87,7 +87,8 @@ public class NovelResourceManager {
 
         Promiser<List<Novel>,String> promise = new Promiser<>((Promiser.Resolver<List<Novel>> resolve, Promiser.Rejecter<String> reject) ->{
             Map<String,String> params = new HashMap<>();
-            params.put("s","287293036948159515");
+//            params.put("s","287293036948159515");
+            params.put("s","8353527289636145615");
             params.put("q",name);
 
             OkHttpUtils.get()//
