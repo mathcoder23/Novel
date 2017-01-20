@@ -1,6 +1,10 @@
 package com.mt23.novel.novel.service;
 
 
+import com.mt23.novel.utils.Promise.Promiser;
+import com.mt23.novel.utils.Promise.PromiserRejecter;
+import com.mt23.novel.utils.log.MT23Log;
+
 import java.util.List;
 
 /**
@@ -40,6 +44,7 @@ Chapter getCurrentChapter()，获取当前章节
     private boolean isDownload = false;
     private boolean isCheckUpdateChapte=false;
     private Long lastReadTime=0l;
+    private int currentChapterIndex = 0;
     private List<Chapter> chapterList;
     public Float getReadProgress(){
         return 0f;
@@ -53,8 +58,56 @@ Chapter getCurrentChapter()，获取当前章节
     public Chapter PreChapter(){
         return null;
     }
-    public Chapter getCurrentChapter(){
-        return null;
+    public Promiser<Chapter,PromiserRejecter> getCurrentChapter(){
+        Promiser<Chapter,PromiserRejecter> promiser = new Promiser<>(new Promiser.PromiseInitializer<Chapter, PromiserRejecter>() {
+            @Override
+            public void run(Promiser.Resolver<Chapter> resolve, Promiser.Rejecter<PromiserRejecter> reject) {
+
+                if(null != chapterList)
+                {
+
+                    if (chapterList.size()-1>currentChapterIndex)
+                    {
+                        resolve.run(chapterList.get(currentChapterIndex));
+                        MT23Log.d("获取"+getName()+"章节，个数："+chapterList.size());
+                    }
+                    else
+                    {
+                        MT23Log.e(getName()+":章节列表的索引错误"+"，章节个数："+chapterList.size()+" 当前索引："+currentChapterIndex);
+                        reject.run(new PromiserRejecter(501,"章节列表的索引错误"));
+                    }
+                }
+                else
+                {
+                    MT23Log.d(getName()+"章节列表为null，正在加载");
+                    NovelResourceManager.getInstance()
+                            .loadNovelCatalog(Novel.this)
+                            .success((List<Chapter> chapters)->{
+                                MT23Log.d(getName()+",章节加载完成,章节个数："+chapters.size());
+                                chapterList = chapters;
+
+                                if (chapterList.size()-1>currentChapterIndex)
+                                {
+                                    resolve.run(chapterList.get(currentChapterIndex));
+                                    MT23Log.d("获取"+getName()+"章节，个数："+chapterList.size());
+                                }
+                                else
+                                {
+                                    MT23Log.e(getName()+":章节列表的索引错误"+"，章节个数："+chapterList.size()+" 当前索引："+currentChapterIndex);
+                                    reject.run(new PromiserRejecter(501,"章节列表的索引错误"));
+                                }
+
+                            })
+                            .error((String err)->{
+
+                            })
+                            ;
+                }
+
+            }
+        });
+        return promiser;
+
     }
 
     public String getType() {
@@ -166,6 +219,11 @@ Chapter getCurrentChapter()，获取当前章节
     }
 
     public void setChapterList(List<Chapter> chapterList) {
+
         this.chapterList = chapterList;
+    }
+    private void loadChapters()
+    {
+
     }
 }

@@ -43,7 +43,7 @@ public class NovelResourceManager {
         Promiser<List<Chapter>,String> promise = new Promiser<>((Promiser.Resolver<List<Chapter>> resolve, Promiser.Rejecter<String> reject) ->{
             OkHttpUtils.get()//
                     .tag(this)//
-                    .url(searchUrl)
+                    .url(novel.getUrl())
                     .build()
                     .execute(new HtmlDomCallBack() {
                         @Override
