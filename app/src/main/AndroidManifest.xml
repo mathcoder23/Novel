@@ -28,6 +28,11 @@
                   android:windowSoftInputMode="stateHidden">
 
         </activity>
+        <activity android:name=".ui.activity.ReadNovelActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:windowSoftInputMode="stateHidden">
+
+        </activity>
 
 
     </application>

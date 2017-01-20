@@ -19,6 +19,7 @@ import java.util.*;
  */
 public class NovelResourceManager {
     private static NovelResourceManager single;
+    private Novel currentNovel;
     private NovelResourceManager()
     {
 
@@ -28,6 +29,13 @@ public class NovelResourceManager {
         if (single == null)
             single = new NovelResourceManager();
         return single;
+    }
+    public Novel getCurrentNovel(){
+        return currentNovel;
+    }
+    public void setCurrentNovel(Novel novel)
+    {
+        this.currentNovel = novel;
     }
     private String searchUrl = "http://zhannei.baidu.com/cse/search";
     public Promiser<List<Chapter>,String> loadNovelCatalog(Novel novel)

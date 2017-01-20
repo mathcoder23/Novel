@@ -1,5 +1,6 @@
 package com.mt23.novel.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -61,7 +62,9 @@ public class SearchNovelActivity extends BaseActivity implements TextWatcher {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Novel novel = (Novel) adapterView.getItemAtPosition(i);
+                NovelResourceManager.getInstance().setCurrentNovel(novel);
                 ToastUtils.show(novel.getName());
+                startActivity(new Intent(SearchNovelActivity.this,ReadNovelActivity.class));
             }
         });
     }

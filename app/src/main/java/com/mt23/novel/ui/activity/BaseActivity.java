@@ -11,4 +11,13 @@ public class BaseActivity extends Activity {
     {
         this.finish();
     }
+    public void loading(){
+
+    }
+    public void finishLoad(){
+
+    }
+    public void cancelLoad(){
+
+    }
 }
