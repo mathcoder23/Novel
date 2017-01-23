@@ -38,6 +38,7 @@
                        android:id="@+id/et_search_novel"
                        android:background="@null"
                        android:textColor="#fff"
+                       android:text="不朽凡人"
                        android:hint="请输入小说名或作者"
                        android:textColorHint="#d1cdcd"
                        android:layout_toRightOf="@+id/iv_search_novel"

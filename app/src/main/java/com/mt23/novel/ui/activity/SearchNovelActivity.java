@@ -84,6 +84,7 @@ public class SearchNovelActivity extends BaseActivity implements TextWatcher {
     ///////////////按键
     public void onSearch(View v)
     {
+        searchNovel(etSearchNovel.getText().toString());
         ToastUtils.show(this,"search");
     }
     public void onEditClear(View v)
@@ -105,22 +106,7 @@ public class SearchNovelActivity extends BaseActivity implements TextWatcher {
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         if (charSequence.length()>0)
         {
-            ivSearchNovelEdClear.setVisibility(View.VISIBLE);
-            changeUI(UIState.NovelSearchResult);
-            NovelResourceManager.getInstance()
-                    .searchNovelByName(charSequence.toString())
-                    .success(new Promiser.Resolver<List<Novel>>() {
-                        @Override
-                        public void run(List<Novel> novels) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    adapterSearchNovelResult.updateData(novels);
-                                }
-                            });
-
-                        }
-                    });
+            searchNovel(charSequence.toString());
         }
         else
         {
@@ -131,5 +117,24 @@ public class SearchNovelActivity extends BaseActivity implements TextWatcher {
     @Override
     public void afterTextChanged(Editable editable) {
 
+    }
+    private void searchNovel(String novel)
+    {
+        ivSearchNovelEdClear.setVisibility(View.VISIBLE);
+        changeUI(UIState.NovelSearchResult);
+        NovelResourceManager.getInstance()
+                .searchNovelByName(novel)
+                .success(new Promiser.Resolver<List<Novel>>() {
+                    @Override
+                    public void run(List<Novel> novels) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapterSearchNovelResult.updateData(novels);
+                            }
+                        });
+
+                    }
+                });
     }
 }
