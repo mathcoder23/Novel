@@ -54,7 +54,7 @@ public class NovelResourceManager {
 
                         @Override
                         public void onError(Call call, Exception e) {
-
+                            reject.run(e.toString());
                         }
 
                         @Override

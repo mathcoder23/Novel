@@ -99,7 +99,7 @@ Chapter getCurrentChapter()，获取当前章节
 
                             })
                             .error((String err)->{
-
+                                MT23Log.e(getName()+"获取章节列表失败："+err);
                             })
                             ;
                 }
